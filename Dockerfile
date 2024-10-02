@@ -1,17 +1,12 @@
+# Use the suggested Windows-based JMeter image from Docker Hub
+FROM qainsights/windows-docker-jmeter:latest
 
-# Use the official JMeter image
-FROM ghcr.io/navikt/jmeter:latest
+# Set environment variables for JMeter
+ENV JMETER_HOME /opt/apache-jmeter
+ENV PATH $JMETER_HOME/bin:$PATH
 
-# Set JMeter test file and result paths
-ENV JMETER_TEST_PLAN=BlazeDemo_Full_Flow_With_Criteria.jmx
-ENV JMETER_RESULTS_FILE=/results/results.csv
-ENV JMETER_REPORT_FOLDER=/results/html-reports
+# Copy the JMX file into the container
+COPY BlazeDemo_Full_Flow_With_Criteria.jmx /mnt/jmeter/test_plan.jmx
 
-# Copy the JMeter test plan into the container
-COPY ${JMETER_TEST_PLAN} /tests/${JMETER_TEST_PLAN}
-
-# Create a directory for results
-RUN mkdir -p /results
-
-# Run JMeter with the specified test plan
-ENTRYPOINT ["jmeter", "-n", "-t", "/tests/BlazeDemo_Full_Flow_With_Criteria.jmx", "-l", "/results/results.csv", "-e", "-o", "/results/html-reports"]
+# Run JMeter command to execute the test plan
+ENTRYPOINT ["jmeter", "-n", "-t", "/mnt/jmeter/test_plan.jmx", "-l", "/mnt/jmeter/results.jtl", "-e", "-o", "/mnt/jmeter/reports"]
