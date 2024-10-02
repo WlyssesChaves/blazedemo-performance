@@ -1,5 +1,5 @@
-# Use the suggested Windows-based JMeter image from Docker Hub
-FROM qainsights/windows-docker-jmeter:latest
+# Use a public and stable JMeter image
+FROM blazemeter/taurus:latest
 
 # Set environment variables for JMeter
 ENV JMETER_HOME /opt/apache-jmeter
