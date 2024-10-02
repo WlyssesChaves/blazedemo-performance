@@ -1,6 +1,6 @@
 
 # Use the official JMeter image
-FROM apache/jmeter:latest
+FROM bencmarshall/jmeter:latest
 
 # Set JMeter test file and result paths
 ENV JMETER_TEST_PLAN=BlazeDemo_Full_Flow_With_Criteria.jmx
