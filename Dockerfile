@@ -1,6 +1,6 @@
 
 # Use the official JMeter image
-FROM justb4/jmeter:5.4.1
+FROM apache/jmeter:latest
 
 # Set JMeter test file and result paths
 ENV JMETER_TEST_PLAN=BlazeDemo_Full_Flow_With_Criteria.jmx
