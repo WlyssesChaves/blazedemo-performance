@@ -13,6 +13,27 @@ jobs:
     steps:
       - name: Remove Docker Cache
         run: docker builder prune -f
-      - uses: actions/checkout@v4
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build . --file Dockerfile --tag blazedemo-performance:latest
+
+      - name: Run JMeter Container
+        run: docker run --name blazedemo-container -v ${{ github.workspace }}/results:/results blazedemo-performance:latest
+
+      - name: List Results Directory
+        run: ls -R results
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: jmeter-results
+          path: results/results.csv
+
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: jmeter-report
+          path: results/html-reports
