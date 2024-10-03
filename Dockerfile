@@ -1,5 +1,5 @@
-# Use a stable JMeter image com a versão 5.4.1
-FROM apache/jmeter:5.4.1
+# Use a última versão do JMeter
+FROM apache/jmeter:latest
 
 # Set environment variables for JMeter
 ENV JMETER_HOME /opt/apache-jmeter
