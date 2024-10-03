@@ -1,11 +1,11 @@
-# Use a public and stable JMeter image
-FROM jmeter/jmeter:latest
+# Use a stable JMeter image
+FROM justb4/jmeter:latest
 
 # Set environment variables for JMeter
 ENV JMETER_HOME /opt/apache-jmeter
 ENV PATH $JMETER_HOME/bin:$PATH
 
-# Copy the JMeter test plan into the container
+# Copy the JMX file into the container
 COPY BlazeDemo_Full_Flow_With_Criteria.jmx /tests/BlazeDemo_Full_Flow_With_Criteria.jmx
 
 # Create a directory for results
