@@ -1,15 +1,15 @@
-# Use a última versão do JMeter
-FROM apache/jmeter:latest
+# Use a imagem estável de JMeter do repositório Justb4
+FROM justb4/jmeter:5.4.1
 
-# Set environment variables for JMeter
+# Defina as variáveis de ambiente para o JMeter
 ENV JMETER_HOME /opt/apache-jmeter
 ENV PATH $JMETER_HOME/bin:$PATH
 
-# Copy the JMX file into the container
+# Copia o arquivo de teste JMX para o container
 COPY BlazeDemo_Full_Flow_With_Criteria.jmx /tests/BlazeDemo_Full_Flow_With_Criteria.jmx
 
-# Create a directory for results
+# Cria o diretório para armazenar os resultados
 RUN mkdir -p /results
 
-# Run JMeter with the specified test plan
+# Comando de execução do JMeter
 ENTRYPOINT ["jmeter", "-n", "-t", "/tests/BlazeDemo_Full_Flow_With_Criteria.jmx", "-l", "/results/results.csv", "-e", "-o", "/results/html-reports"]
