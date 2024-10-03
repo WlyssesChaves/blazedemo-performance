@@ -21,22 +21,34 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag blazedemo-performance:latest
+        run: docker build . --file Dockerfile --tag jmeter-multi-test:latest
 
       - name: Run JMeter Container
-        run: docker run --name blazedemo-container -v ${{ github.workspace }}/results:/results blazedemo-performance:latest
+        run: docker run --name jmeter-multi-test-container -v ${{ github.workspace }}/results:/results jmeter-multi-test:latest
 
       - name: List Results Directory
-        run: ls -R results
+        run: ls -R ${{ github.workspace }}/results
 
-      - name: Upload Test Results
+      - name: Upload Test Results (Peak Test)
         uses: actions/upload-artifact@v3
         with:
-          name: jmeter-results
-          path: results/results.csv
+          name: peak-test-results
+          path: ${{ github.workspace }}/results/peak
 
-      - name: Upload HTML Report
+      - name: Upload Test Results (Load Test)
         uses: actions/upload-artifact@v3
         with:
-          name: jmeter-report
-          path: results/html-reports
+          name: load-test-results
+          path: ${{ github.workspace }}/results/load
+
+      - name: Upload HTML Report (Peak Test)
+        uses: actions/upload-artifact@v3
+        with:
+          name: peak-test-report
+          path: ${{ github.workspace }}/results/peak/html-reports
+
+      - name: Upload HTML Report (Load Test)
+        uses: actions/upload-artifact@v3
+        with:
+          name: load-test-report
+          path: ${{ github.workspace }}/results/load/html-reports

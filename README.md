@@ -1,61 +1,55 @@
-
 # BlazeDemo Full Flow Performance Test
 
-This repository contains a performance testing setup for the BlazeDemo application using JMeter. The test simulates a complete flow for purchasing a flight ticket, including load and spike tests to evaluate the system's performance under different scenarios.
+Este repositório contém a configuração de testes de performance para a aplicação BlazeDemo utilizando o JMeter. O teste simula o fluxo completo de compra de uma passagem aérea, incluindo testes de carga e pico para avaliar o desempenho do sistema em diferentes cenários.
 
-## Project Structure
-- **BlazeDemo_Full_Flow_With_Criteria.jmx**: The JMeter test plan for both load and spike scenarios.
-- **Dockerfile**: Docker configuration to run the JMeter tests.
-- **README.md**: Documentation with instructions and execution details.
+## Estrutura do Projeto
 
-## Prerequisites
-1. **JMeter 5.4.1+** installed locally (if not using Docker).
-2. **Docker** installed for containerized execution.
-3. Clone this repository to your local machine.
+- **Peak Test.jmx**: O plano de teste JMeter para o cenário de pico.
+- **Load Test.jmx**: O plano de teste JMeter para o cenário de carga.
+- **Dockerfile**: Configuração do Docker para executar os testes JMeter.
+- **README.md**: Documentação com instruções e detalhes de execução.
 
-## Test Scenarios
-The test plan includes two main scenarios:
-1. **Load Test**:
-   - 325 threads simulating 250 requests per second.
-   - Executes the full flow of purchasing a flight for 60 seconds.
-   
-2. **Spike Test**:
-   - 700 threads simulating a high load spike.
-   - Executes the same flow as the load test but for 20 seconds to evaluate peak performance.
+## Pré-requisitos
 
-## Running the Tests
+1. **JMeter 5.4+** instalado localmente (caso não esteja utilizando Docker).
+2. **Docker** instalado para execução em contêiner.
+3. Clone este repositório para sua máquina local.
 
-### Option 1: Run with JMeter Locally
-If you have JMeter installed:
-```bash
-jmeter -n -t BlazeDemo_Full_Flow_With_Criteria.jmx -l results.csv -e -o html-reports/
-```
-This command will generate a CSV file (`results.csv`) and an HTML report (`html-reports/`).
+## Cenários de Teste
 
-### Option 2: Run with Docker
-To run the test using Docker:
-1. Build the Docker image:
-```bash
-docker build -t blazedemo-performance-test .
-```
+O plano de teste inclui dois cenários principais:
 
-2. Run the container:
-```bash
-docker run --rm -v $(pwd)/results:/results blazedemo-performance-test
-```
-The results will be stored in the `results/` folder.
+1. **Teste de Carga (Load Test)**:
+   - 325 threads simulando 250 requisições por segundo.
+   - Executa o fluxo completo de compra de passagem por 60 segundos.
+2. **Teste de Pico (Peak Test)**:
+   - 700 threads simulando um pico de carga elevado.
+   - Executa o mesmo fluxo do teste de carga, mas por 20 segundos para avaliar o desempenho sob pico de carga.
 
-## Test Results and Considerations
+## Executando os Testes
 
-### Summary
-- **Load Test**: Successfully achieved 250 requests per second with a 90th percentile response time below 2 seconds.
-- **Spike Test**: Managed to handle the sudden load with minimal errors and consistent response times.
+### Opção 1: Executar com JMeter Localmente
 
-### Considerations
-- For consistent results, ensure that the test environment has sufficient resources.
-- The spike test may produce varying results depending on the server's ability to handle sudden bursts of traffic.
+Se você tiver o JMeter instalado:
+jmeter -n -t Peak Test.jmx -l peak_test_results.csv -e -o html-reports/ jmeter -n -t Load Test.jmx -l load_test_results.csv -e -o html-reports/
 
-## Future Improvements
-1. Add more realistic data inputs for dynamic scenarios.
-2. Implement more granular assertions based on response content.
-3. Explore integrating monitoring tools like Grafana for real-time metrics.
+Este comando irá gerar arquivos CSV (`peak_test_results.csv`, `load_test_results.csv`) e relatórios HTML (`html-reports/`).
+
+### Opção 2: Executar com Docker
+
+Para rodar o teste utilizando Docker:
+
+1. Construa a imagem Docker:
+   docker build -t blazedemo-performance-test .
+
+2. Execute o contêiner:
+   docker run --rm -v $(pwd)/results:/results blazedemo-performance-test
+
+Os resultados serão armazenados na pasta `results/`.
+
+## Resultados dos Testes e Considerações
+
+### Resumo
+
+- **Teste de Carga**: Critério de aceite não foi satisfeito. Com 800 usuários virtuais, a taxa máxima alcançada foi de aproximadamente 197 requisições por segundo. Os tempos de resposta para o percentil 90 foram elevados (acima de 8 segundos), e a porcentagem de erro se manteve em torno de 2,31%. Isso indica que o sistema não está conseguindo lidar com a carga projetada e apresenta problemas de desempenho sob altas taxas de requisição.
+- **Teste de Pico**: A configuração de pico com 2000 UVs resultou em uma taxa máxima de aproximadamente 198 requisições por segundo, mas a porcentagem de erro foi alta, em torno de 5,62%, com tempos de resposta inconsistentes (90% das requisições acima de 9 segundos). Isso sugere que o sistema não é capaz de suportar picos de carga sem uma degradação significativa no desempenho e aumento de erros.
