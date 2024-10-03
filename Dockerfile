@@ -1,6 +1,9 @@
+# Use a public and stable JMeter image
+FROM blazemeter/taurus:latest
 
-# Use the official JMeter image
-FROM jmeter/jmeter:latest
+# Set environment variables for JMeter
+ENV JMETER_HOME /opt/apache-jmeter
+ENV PATH $JMETER_HOME/bin:$PATH
 
 # Set JMeter test file and result paths
 ENV JMETER_TEST_PLAN=BlazeDemo_Full_Flow_With_Criteria.jmx
