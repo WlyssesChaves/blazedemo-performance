@@ -1,4 +1,4 @@
-# BlazeDemo Full Flow Performance Test
+# BlazeDemo Performance Test
 
 Este repositório contém a configuração de testes de performance para a aplicação BlazeDemo utilizando o JMeter. O teste simula o fluxo completo de compra de uma passagem aérea, incluindo testes de carga e pico para avaliar o desempenho do sistema em diferentes cenários.
 
@@ -20,11 +20,13 @@ Este repositório contém a configuração de testes de performance para a aplic
 O plano de teste inclui dois cenários principais:
 
 1. **Teste de Carga (Load Test)**:
-   - 325 threads simulando 250 requisições por segundo.
-   - Executa o fluxo completo de compra de passagem por 60 segundos.
+   - 800 usuários virtuais (threads) para simular 250 requisições por segundo.
+   - Executa o fluxo completo de compra de passagem por 5 minutos (300 segundos).
+   - Avalia a capacidade de atender a demanda constante com um critério de aceitação de tempo de resposta do percentil 90 abaixo de 2 segundos.
 2. **Teste de Pico (Peak Test)**:
-   - 700 threads simulando um pico de carga elevado.
-   - Executa o mesmo fluxo do teste de carga, mas por 20 segundos para avaliar o desempenho sob pico de carga.
+   - 2000 usuários virtuais (threads) para simular um pico de carga elevado.
+   - Executa o mesmo fluxo do teste de carga por 20 segundos para avaliar o desempenho do sistema sob carga extrema.
+   - Verifica a estabilidade do sistema ao lidar com uma carga repentina e a porcentagem de erros resultante.
 
 ## Executando os Testes
 
