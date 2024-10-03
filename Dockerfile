@@ -1,5 +1,5 @@
 # Use a imagem estável de JMeter do repositório Justb4
-FROM justb4/jmeter:latest
+FROM justb4/jmeter:5.4
 
 # Defina as variáveis de ambiente para o JMeter
 ENV JMETER_HOME /opt/apache-jmeter
