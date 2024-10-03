@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Remove Docker Cache
-        run: docker builder prune -f
-
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Remove Docker Cache
+        run: docker builder prune -f
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag blazedemo-performance:latest
